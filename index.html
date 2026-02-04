@@ -1,134 +1,209 @@
-<div class="card">
-  <div id="quiz-section">
-    <h1 id="question">Maddie, will you be my Valentine? ❤️</h1>
-    <div class="buttons">
-      <button id="yesBtn" onclick="celebrate()">YES</button>
-      <button id="noBtn">NO</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Maddie ❤️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+    body { 
+      font-family: 'Fredoka', sans-serif; /* Cute rounded font */
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* The Floating Emojis Background */
+    .emoji-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating-emoji {
+      position: absolute;
+      font-size: 2rem;
+      animation: floatUp linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85); /* Glass effect */
+      backdrop-filter: blur(10px);
+      padding: 50px 40px;
+      border-radius: 30px;
+      box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+      min-height: 450px;
+      border: 4px solid #fff;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 { 
+      color: #ff4d6d; 
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      text-shadow: 2px 2px 0px #ffe5ec;
+    }
+
+    .buttons { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 20px; 
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    button { 
+      padding: 15px 30px; 
+      font-size: 20px; 
+      cursor: pointer; 
+      border-radius: 50px; 
+      border: none; 
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      transition: transform 0.1s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    #yesBtn { 
+      background-color: #ff4d6d; 
+      color: white; 
+    }
+
+    #noBtn { 
+      background-color: #ffffff; 
+      color: #ff4d6d; 
+      border: 2px solid #ff4d6d;
+    }
+
+    /* Success Message Styles */
+    .success-text { 
+      color: #ff4d6d; 
+      font-size: 2.2rem; 
+      margin: 10px 0;
+      animation: popIn 0.5s ease;
+    }
+
+    .success-subtext { 
+      color: #c9184a; 
+      font-size: 1.4rem; 
+      margin-top: 5px;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="emoji-bg" id="emoji-bg"></div>
+
+  <div class="card">
+    <div id="quiz-section">
+      <h1>✨ Maddie ✨<br>Will you be my Valentine? 🥺</h1>
+      <div class="buttons">
+        <button id="yesBtn" onclick="celebrate()">YES 💖</button>
+        <button id="noBtn">NO 🥀</button>
+      </div>
+    </div>
+
+    <div id="message" style="display:none;">
+      <img src="https://i.imgur.com/bN8yvML.gif" alt="Celebration" style="width: 100%; max-width: 300px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+      <h2 class="success-text">YAYYY! 🎉💖</h2>
+      <p class="success-subtext">I knew you'd say yes! <br> Best Valentine's ever. 🥰</p>
     </div>
   </div>
 
-  <div id="message" style="display:none;">
-    <img src="https://i.imgur.com/bN8yvML.gif" alt="Celebration" style="width: 100%; max-width: 300px; border-radius: 15px; margin-bottom: 20px;">
-    <h2 class="success-text">CONGRATULATIONS! 🎉</h2>
-    <p class="success-subtext">I knew you'd say yes! Best Valentine's ever. ❤️</p>
-  </div>
-</div>
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const card = document.querySelector('.card');
+    let yesSize = 20; 
 
-<script>
-  const noBtn = document.getElementById('noBtn');
-  const yesBtn = document.getElementById('yesBtn');
-  const card = document.querySelector('.card');
-  let yesSize = 20; 
+    // 1. Create Floating Background Emojis
+    const emojiContainer = document.getElementById('emoji-bg');
+    const emojis = ['💖', '🌸', '🧸', '✨', '🍫', '🎀', '💌', '🥰'];
 
-  noBtn.addEventListener('mouseover', () => {
-    const cardRect = card.getBoundingClientRect();
-    const padding = 20; 
-    
-    const maxX = cardRect.width - noBtn.offsetWidth - padding;
-    const maxY = cardRect.height - noBtn.offsetHeight - padding;
-    
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-    
-    noBtn.style.position = 'absolute';
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
+    function createFloatingEmoji() {
+      const el = document.createElement('div');
+      el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      el.classList.add('floating-emoji');
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Random speed 5-10s
+      el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem'; // Random size
+      emojiContainer.appendChild(el);
 
-    yesSize += 10;
-    yesBtn.style.fontSize = `${yesSize}px`;
-    yesBtn.style.padding = `${yesSize/2}px ${yesSize}px`;
-  });
+      // Remove after animation to keep DOM clean
+      setTimeout(() => {
+        el.remove();
+      }, 10000);
+    }
 
-  function celebrate() {
-    document.getElementById('quiz-section').style.display = 'none';
-    document.getElementById('message').style.display = 'block';
-    document.body.style.backgroundColor = "#ff4d6d";
-    document.body.classList.add('pulse');
-  }
-</script>
+    // Start the emoji rain
+    setInterval(createFloatingEmoji, 300);
 
-<style>
-  body { 
-    font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif; 
-    background-color: #ffe5ec; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-  }
 
-  .card {
-    background: white;
-    padding: 60px 40px;
-    border-radius: 30px;
-    box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-    min-height: 450px;
-    border: 5px solid #ff4d6d;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+    // 2. The "Impossible No" Logic
+    noBtn.addEventListener('mouseover', () => {
+      const cardRect = card.getBoundingClientRect();
+      const padding = 20; 
+      
+      const maxX = cardRect.width - noBtn.offsetWidth - padding;
+      const maxY = cardRect.height - noBtn.offsetHeight - padding;
+      
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+      
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
 
-  #question { 
-    color: #c9184a; 
-    margin-bottom: 30px;
-    font-size: 2rem;
-  }
+      // Make Yes button grow
+      yesSize += 5;
+      yesBtn.style.fontSize = `${yesSize}px`;
+      yesBtn.style.padding = `${yesSize/2}px ${yesSize}px`;
+      yesBtn.innerText = "YES 💖" + "!".repeat((yesSize-20)/5);
+    });
 
-  .buttons { 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 20px; 
-    width: 100%;
-  }
-
-  button { 
-    padding: 15px 30px; 
-    font-size: 20px; 
-    cursor: pointer; 
-    border-radius: 50px; 
-    border: none; 
-    font-weight: bold;
-    z-index: 20;
-  }
-
-  #yesBtn { 
-    background-color: #ff4d6d; 
-    color: white; 
-    box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); 
-  }
-
-  #noBtn { 
-    background-color: #f0f0f0; 
-    color: #888; 
-  }
-
-  /* Success Text Visibility Fixes */
-  .success-text { 
-    color: #ff4d6d; 
-    font-size: 2rem; 
-    margin: 10px 0;
-  }
-
-  .success-subtext { 
-    color: #c9184a; 
-    font-size: 1.2rem; 
-    font-weight: bold;
-    margin-top: 5px;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-  }
-  .pulse { animation: pulse 2s infinite; }
-</style>
+    function celebrate() {
+      document.getElementById('quiz-section').style.display = 'none';
+      document.getElementById('message').style.display = 'block';
+      
+      // Burst of confetti emojis on click
+      for(let i=0; i<50; i++) {
+        createFloatingEmoji();
+      }
+    }
+  </script>
+</body>
+</html>
