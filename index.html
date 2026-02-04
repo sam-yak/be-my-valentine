@@ -8,7 +8,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
 
     body { 
-      font-family: 'Fredoka', sans-serif; /* Cute rounded font */
+      font-family: 'Fredoka', sans-serif; 
       background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
       display: flex;
       justify-content: center;
@@ -19,7 +19,6 @@
       position: relative;
     }
 
-    /* The Floating Emojis Background */
     .emoji-bg {
       position: absolute;
       top: 0;
@@ -46,7 +45,7 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.85); /* Glass effect */
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
       padding: 50px 40px;
       border-radius: 30px;
@@ -103,7 +102,6 @@
       border: 2px solid #ff4d6d;
     }
 
-    /* Success Message Styles */
     .success-text { 
       color: #ff4d6d; 
       font-size: 2.2rem; 
@@ -150,7 +148,6 @@
     const card = document.querySelector('.card');
     let yesSize = 20; 
 
-    // 1. Create Floating Background Emojis
     const emojiContainer = document.getElementById('emoji-bg');
     const emojis = ['💖', '🌸', '🧸', '✨', '🍫', '🎀', '💌', '🥰'];
 
@@ -159,21 +156,18 @@
       el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       el.classList.add('floating-emoji');
       el.style.left = Math.random() * 100 + 'vw';
-      el.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Random speed 5-10s
-      el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem'; // Random size
+      el.style.animationDuration = (Math.random() * 5 + 5) + 's'; 
+      el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem'; 
       emojiContainer.appendChild(el);
 
-      // Remove after animation to keep DOM clean
       setTimeout(() => {
         el.remove();
       }, 10000);
     }
 
-    // Start the emoji rain
-    setInterval(createFloatingEmoji, 300);
+    // UPDATED: Changed from 300 to 100 for 3x more emojis
+    setInterval(createFloatingEmoji, 100);
 
-
-    // 2. The "Impossible No" Logic
     noBtn.addEventListener('mouseover', () => {
       const cardRect = card.getBoundingClientRect();
       const padding = 20; 
@@ -188,7 +182,6 @@
       noBtn.style.left = `${randomX}px`;
       noBtn.style.top = `${randomY}px`;
 
-      // Make Yes button grow
       yesSize += 5;
       yesBtn.style.fontSize = `${yesSize}px`;
       yesBtn.style.padding = `${yesSize/2}px ${yesSize}px`;
